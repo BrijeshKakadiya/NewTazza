@@ -1,0 +1,77 @@
+.cart_overview {
+  padding: 100px 0;
+}
+.cartoverview_title {
+  background: #e2f6de;
+  border: 0;
+}
+.search_ber a {
+  position: absolute;
+  top: 50%;
+  right: 0px;
+  transform: translateY(-50%);
+  width: 120px;
+  height: 50px;
+  background: linear-gradient(to right, #0f7404, #5cb917);
+  color: #fff;
+  text-align: center;
+  line-height: 50px;
+  font-weight: 600;
+  font-size: 16px;
+  transition: all 0.3s;
+}
+
+.coupon_part {
+  padding-bottom: 80px;
+}
+
+.quantity {
+  width: 80px;
+  padding: 9px 7px;
+  background: transparent;
+  text-align: center;
+  border: 2px solid #bcbcbc;
+  color: #061738;
+}
+
+.quantity button {
+  color: #061738;
+  background-color: transparent;
+  border: 0;
+}
+
+.quantity button:hover,
+.quantity button:focus {
+  color: #1a7d06;
+  border: 0;
+  outline: 0;
+}
+
+.quantity_num {
+  margin: 0px 10px;
+}
+
+.search_ber {
+  position: relative;
+}
+
+.search_button {
+  height: 50px;
+  padding-right: 55px;
+}
+
+/* .search_ber i {
+  position: absolute;
+  top: 50%;
+  right: 0px;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(to right, #0f7404, #5cb917);
+  color: #fff;
+  text-align: center;
+  line-height: 50px;
+  font-weight: 600;
+  font-size: 16px;
+  border-radius: 4px;
+} */

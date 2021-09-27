@@ -1,0 +1,62 @@
+.order_part {
+  padding: 100px 0;
+}
+
+.order_txt h2 {
+  font-size: 28px;
+  font-weight: 700;
+  padding-bottom: 30px;
+  color: #232323;
+}
+
+.order_txt p {
+  font-size: 16px;
+  font-weight: 400;
+  color: #555555;
+  padding-top: 10px;
+}
+
+.payment_head {
+  background: #e2f6de !important;
+  color: #232323;
+}
+.billing_head h2 {
+  font-size: 28px;
+  font-weight: 700;
+  padding-bottom: 30px;
+  color: #232323;
+}
+
+.custom-control {
+  color: #fff !important;
+  transition: all 0.3s;
+  padding: 10px 20px;
+  /* height: 50px; */
+}
+.custom-control:focus {
+  border-color: transparent;
+  background-color: #03262c;
+  box-shadow: none;
+}
+.custom-control:focus::placeholder {
+  color: #fff;
+}
+
+.payment_method .form-check label.form-check-label {
+  margin-left: 10px;
+}
+
+.custom-controls {
+  color: #fff !important;
+  transition: all 0.3s;
+  padding: 10px 20px;
+  height: 50px;
+}
+.custom-controls:focus {
+  border-color: transparent;
+  background-color: #03262c;
+  box-shadow: none;
+}
+.custom-controls:focus::placeholder {
+  color: #fff;
+}

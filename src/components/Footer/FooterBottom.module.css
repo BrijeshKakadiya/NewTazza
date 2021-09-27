@@ -1,0 +1,15 @@
+.footer_bottom {
+  background: linear-gradient(to right, #0f7404, #5cb917);
+}
+
+.footer_txt p {
+  font-size: 16px;
+  color: #d6dbe6;
+  padding-top: 15px;
+  font-weight: 500;
+  padding-bottom: 15px;
+}
+
+.footer_txt p span {
+  color: #061738;
+}
