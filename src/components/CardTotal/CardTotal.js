@@ -1,8 +1,30 @@
 import styles from "./CardTotal.module.css";
 import React from "react";
 import Button from "../Button/Button";
+import { useContext } from "react";
+import CartContext from "../../store/cart-context";
+// import coupan from "../../pages/Cartoverview/coupan";
 
-const CardTotal = () => {
+const CardTotal = (props) => {
+  const cartCtx = useContext(CartContext);
+  // console.log(props.coupan);
+
+  let subTotal = 0;
+  cartCtx.bestSellers.map((value) => {
+    subTotal += +value.price * +value.quantity;
+  });
+
+  let Discount = 0;
+  let Coupan = "Tazza5050";
+
+  if (props.abc === Coupan) {
+    Discount = 10;
+    console.log(Discount);
+  }
+
+  let mainTotal = 0;
+  mainTotal = subTotal - Discount;
+
   return (
     <>
       <div>
@@ -24,17 +46,17 @@ const CardTotal = () => {
                 <th scope="row" className="subtotal">
                   Subtotal:
                 </th>
-                <td className="text-end">$568</td>
+                <td className="text-end">${subTotal}</td>
               </tr>
               <tr>
                 <th scope="row" className="discount">
                   Discount:
                 </th>
-                <td className="text-end">$80</td>
+                <td className="text-end">${Discount}</td>
               </tr>
               <tr>
                 <th scope="row">Total:</th>
-                <td className={`text-end ${styles.total_num}`}>$890</td>
+                <td className={`text-end ${styles.total_num}`}>${mainTotal}</td>
               </tr>
             </tbody>
           </table>

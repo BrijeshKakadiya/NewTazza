@@ -1,6 +1,7 @@
 import styles from "./Hero.module.css";
 import leaf from "../../assets/leaf.png";
 import Button from "../Button/Button";
+import { Link } from "react-router-dom";
 
 const Hero = (props) => {
   return (
@@ -13,7 +14,9 @@ const Hero = (props) => {
           <div className="col-lg-12 col-md-12 col-sm-12 col-12">
             <div className={styles.herosection_content}>
               <h2>{props.children}</h2>
-              <Button square>Home - Pages</Button>
+              <Link to="/HomePage">
+                <Button square>Home - Pages</Button>
+              </Link>
             </div>
           </div>
         </div>

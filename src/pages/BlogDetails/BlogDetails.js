@@ -9,9 +9,24 @@ import CustomerBg from "../../assets/CustomerBg.svg";
 import Forminput from "../../components/FormInput/Forminput";
 import TextArea from "../../components/TextArea/TextArea";
 import Button from "../../components/Button/Button";
+import { LatestNews } from "../../lopping/FirstBanner";
+import { useParams, useHistory } from "react-router-dom";
+import Error from "../Error/Error";
 
 const BlogDetails = () => {
-  return (
+  const { id } = useParams();
+  console.log(id);
+
+  let existingBlog;
+  let history = useHistory();
+
+  if (id) {
+    existingBlog = LatestNews.find((item) => item.id === id);
+  } else {
+    history.push("/HomePage");
+  }
+
+  return existingBlog ? (
     <>
       <Hero>Blog Details</Hero>
       <div className={styles.blog_part}>
@@ -49,100 +64,44 @@ const BlogDetails = () => {
                     <div className="blog_publish d-flex justify-content-between pt-4">
                       <div className={styles.date}>
                         <span>
-                          <i className="icofont-ui-calendar"></i> 20 April 2020
+                          <i className="icofont-ui-calendar"></i>
+                          {existingBlog.date}
                         </span>
                       </div>
                       <div className={styles.fav_icon}>
                         <span>
-                          <i className="icofont-ui-love"></i> 568
+                          <i className={existingBlog.like}></i>
+                          {existingBlog.likes}
                         </span>
                         <span>
-                          <i className="icofont-speech-comments"></i> 986
+                          <i className={existingBlog.comment}></i>
+                          {existingBlog.comments}
                         </span>
                       </div>
                     </div>
                     <div className={`${styles.blog_title} text-uppercase`}>
                       <h4>
-                        <a href="/#">
-                          Strawberries are low-growing herbaceous plants with a
-                          fibrous root system and a crown from which arise basal
-                          leaves.
-                        </a>
+                        <a href="/#">{existingBlog.heading}</a>
                       </h4>
                     </div>
                     <div className={styles.blog_details}>
-                      <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmoed tempor encididunt ut labore et dolorem
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation ullameco laboris nisi ut aliquip ex ea
-                        commod consequat. Duis aute irure dolor in reprehenderit
-                        in voluptate velit esse cillum dolore eu fugiat nulla
-                        pariatur excepteur sint occaecat cupidatat non proident.
-                      </p>
-                      <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmeod tempor encididunt ut labore et dolorem
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation ullaemco laboris nisi ut aliquip ex ea
-                        commod consequat. Duis aute irure dolor in
-                        reprehenderit.
-                      </p>
+                      <p>{existingBlog.LongDescription}</p>
+                      <p>{existingBlog.LongDescription}</p>
                       <div
                         className={` mt-3 mb-3 ${styles.blog_details_comment}`}
                       >
-                        <p>
-                          Eute irure dolor in reprehenderit in voluptate velit
-                          esse cillum dolore fugiat nulla pariatur cepteur sint
-                          occaecat cudatat non proident sunt ulpa officia
-                          deserunt mollit anim id esrum.
-                        </p>
+                        <p>{existingBlog.ShortDescription}</p>
                       </div>
-                      <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmoed tempor encididunt ut labore et dolorem
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation ullameco laboris nisi ut aliquip ex ea
-                        commod consequat. Duis aute irure dolor in reprehenderit
-                        in voluptate velit esse cillum dolore eu fugiat nulla
-                        pariatur excepteur sint occaecat cupidatat non proident.
-                      </p>
-                      <strong>
-                        Strawberries are low-growing herbaceous plants with a
-                        fibrous root system and a crown from which arise basal
-                        leaves.
-                      </strong>
-                      <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmoed tempor encididunt ut labore et dolorem
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation ullameco laboris nisi ut aliquip ex ea
-                        commod consequat. Duis aute irure dolor in reprehenderit
-                        in voluptate velit esse cillum dolore eu fugiat nulla
-                        pariatur excepteur sint occaecat cupidatat non proident.
-                      </p>
-                      <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmeod tempor encididunt ut labore et dolorem
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation ullaemco laboris nisi ut aliquip ex ea
-                        commod consequat. Duis aute irure dolor in
-                        reprehenderit.
-                      </p>
-                      <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmoed tempor encididunt ut labore et dolorem
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation ullameco laboris nisi ut aliquip ex ea
-                        commod consequat. Duis aute irure dolor in reprehenderit
-                        in voluptate velit esse cillum dolore eu fugiat nulla
-                        pariatur excepteur sint occaecat cupidatat non proident.
-                      </p>
+                      <p>{existingBlog.LongDescription}</p>
+                      <strong>{existingBlog.heading}</strong>
+                      <p>{existingBlog.LongDescription}</p>
+                      <p>{existingBlog.LongDescription}</p>
+                      <p>{existingBlog.LongDescription}</p>
                       <div className="details_img mt-3 mb-3">
                         <div className="row">
                           <div className="col-xs-4 col-sm-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
                             <img
-                              src={Blogimg}
+                              src={existingBlog.img2}
                               className="w-100 img-fluid"
                               alt=""
                             />
@@ -150,7 +109,7 @@ const BlogDetails = () => {
 
                           <div className="col-xs-4 col-sm-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
                             <img
-                              src={Blogimg}
+                              src={existingBlog.img2}
                               className="w-100 img-fluid"
                               alt=""
                             />
@@ -158,22 +117,14 @@ const BlogDetails = () => {
 
                           <div className="col-xs-4 col-sm-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
                             <img
-                              src={Blogimg}
+                              src={existingBlog.img2}
                               className="w-100 img-fluid"
                               alt=""
                             />
                           </div>
                         </div>
                       </div>
-                      <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmoed tempor encididunt ut labore et dolorem
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation ullameco laboris nisi ut aliquip ex ea
-                        commod consequat. Duis aute irure dolor in reprehenderit
-                        in voluptate velit esse cillum dolore eu fugiat nulla
-                        pariatur excepteur sint occaecat cupidatat non proident.
-                      </p>
+                      <p>{existingBlog.LongDescription}</p>
                       <div className={styles.social_iconber}>
                         <div className="row align-items-center">
                           <div className="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 text-left">
@@ -332,6 +283,10 @@ const BlogDetails = () => {
         </div>
       </div>
     </>
+  ) : (
+    <Error>
+      <h4 className={styles.error_content}>Data is not Found.</h4>
+    </Error>
   );
 };
 

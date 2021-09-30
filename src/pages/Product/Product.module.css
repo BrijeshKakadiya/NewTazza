@@ -1,10 +1,17 @@
+.error_content {
+  font-size: 46px;
+  font-weight: 700;
+  padding-bottom: 15px;
+  color: #03262c;
+}
+
 .product_details {
   padding: 100px 0;
 }
 
 .small_img {
   margin-right: 20px;
-  width: 235px;
+  width: 100px;
 }
 
 .small_img img {

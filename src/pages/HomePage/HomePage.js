@@ -1,12 +1,14 @@
+// import news1 from "../../assets/news1.jpg";
+// import news2 from "../../assets/news2.jpg";
+// import news3 from "../../assets/news3.jpg";
 import styles from "./HomePage.module.css";
 import React, { useContext } from "react";
 import CartContext from "../../store/cart-context";
 import Slider from "react-slick";
 import Icofont from "react-icofont";
 import Button from "../../components/Button/Button";
-import news1 from "../../assets/news1.jpg";
-import news2 from "../../assets/news2.jpg";
-import news3 from "../../assets/news3.jpg";
+import { Link } from "react-router-dom";
+import { NavHashLink } from "react-router-hash-link";
 import {
   FirstBanner,
   Feature,
@@ -14,6 +16,7 @@ import {
   Partner,
   TestimonialImg,
   TestimonialReview,
+  LatestNews,
 } from "../../lopping/FirstBanner";
 
 const SampleNextArrow = (props) => {
@@ -125,8 +128,8 @@ const HomePage = (props) => {
 
   const setProduct = (item) => {
     cartCtx.addItem(item);
-    // console.log(item);
   };
+  // console.log(item);
 
   return (
     <>
@@ -144,9 +147,20 @@ const HomePage = (props) => {
                       </h1>
                       <h3>{value.heading}</h3>
                       <p>{value.description}</p>
-                      <Button position="right" iconName="icofont-bubble-right">
+                      <NavHashLink
+                        className={`${styles["nav-link-nav"]} nav-link`}
+                        to="/#product"
+                      >
+                        <Button
+                          position="right"
+                          iconName="icofont-bubble-right"
+                        >
+                          ALL PRoducts
+                        </Button>
+                      </NavHashLink>
+                      {/* <Button position="right" iconName="icofont-bubble-right">
                         ALL PRoducts
-                      </Button>
+                      </Button> */}
                     </div>
                   </div>
                 );
@@ -237,6 +251,7 @@ const HomePage = (props) => {
 
           <div className="row mt-5">
             {bestSellers.map((value) => {
+              // console.log(value.id);
               return (
                 <div className="col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-4">
                   <div className={styles.product}>
@@ -276,10 +291,11 @@ const HomePage = (props) => {
                       </div>
 
                       <div className={`${styles.icons} position-center`}>
-                        <div className="rounded-icon">
-                          <i className="icofont-eye"></i>
-                        </div>
-
+                        <Link to={`/product/${value.id}`}>
+                          <div className="rounded-icon">
+                            <i className="icofont-eye"></i>
+                          </div>
+                        </Link>
                         <div className="rounded-icon">
                           <i className="icofont-heart-alt"></i>
                         </div>
@@ -292,6 +308,7 @@ const HomePage = (props) => {
           </div>
         </div>
       </div>
+
       {/* offer */}
       <div className={styles["full-offer"]}>
         <div className={`bg-1 ${styles["bgg-1"]}`}></div>
@@ -315,6 +332,7 @@ const HomePage = (props) => {
           </div>
         </div>
       </div>
+
       {/* Partners */}
       <div className={styles["full-partners"]}>
         <div className="container">
@@ -333,6 +351,7 @@ const HomePage = (props) => {
           </div>
         </div>
       </div>
+
       {/* Testimonial */}
       <div className={styles["full-testimonial"]} id="full-testimonial">
         <div className="container">
@@ -378,6 +397,7 @@ const HomePage = (props) => {
           </div>
         </div>
       </div>
+
       {/* Contact */}
       <div className={styles["contact-now"]}>
         <div className="container">
@@ -387,9 +407,11 @@ const HomePage = (props) => {
                 If you Need Natural And Fresh Organic Fruits!
               </h3>
               <div className="text-center mt-5">
-                <Button position="right" iconName="icofont-bubble-right">
-                  Contact Now
-                </Button>
+                <Link to="/Contact">
+                  <Button position="right" iconName="icofont-bubble-right">
+                    Contact Now
+                  </Button>
+                </Link>
               </div>
               {/* <a href="#" className="btn mt-5">
                 Contact Now <i className="icofont-bubble-right"></i>
@@ -398,6 +420,7 @@ const HomePage = (props) => {
           </div>
         </div>
       </div>
+
       {/* LatestNews */}
       <div className="full-latest-news">
         <div className="container">
@@ -410,79 +433,84 @@ const HomePage = (props) => {
               </p>
             </div>
           </div>
-
           <div className="row mt-5">
+            {/* {LatestNews.map((value) => {
+              return ( */}
             <div className="col-md-6">
               <div className="latest-news-grid">
                 <div className={styles["news-img"]}>
-                  <img className="w-100" src={news1} alt="" />
+                  <img className="w-100" src={LatestNews[0].img1} alt="" />
                 </div>
 
                 <div className={styles["news-content"]}>
                   <div className={styles["date-react"]}>
-                    <span className={styles.date}>16 January’20</span>
+                    <span className={styles.date}>{LatestNews[0].date}</span>
                     <span className={styles.react}>
-                      <i className="icofont-ui-love"></i> 56
+                      <i className={LatestNews[0].like}></i>{" "}
+                      {LatestNews[0].likes}
                     </span>
                     <span className={styles.react}>
-                      <i className="icofont-speech-comments"></i> 98
+                      <i className={LatestNews[0].comment}></i>{" "}
+                      {LatestNews[0].comments}
                     </span>
                   </div>
                   <div className={styles["news-title"]}>
-                    <a href="/">
-                      <h4>
-                        The passage experienced a popularity during the used it
-                        on their dry-transfer sheets.
-                      </h4>
-                    </a>
+                    <Link to={`/BlogDetails/${LatestNews[0].id}`}>
+                      <h4>{LatestNews[0].heading.substr(0, 73)}...</h4>
+                    </Link>
                   </div>
                 </div>
               </div>
             </div>
-
+            {/* );
+             })} */}
             <div className="col-md-6">
               <div className={`${styles["latest-news-list"]} d-flex`}>
                 <div className={styles["news-img"]}>
-                  <img className="w-100" src={news2} alt="" />
+                  <img className="w-100" src={LatestNews[1].img2} alt="" />
                 </div>
 
                 <div className={styles["news-content"]}>
                   <div className={styles["date-react"]}>
-                    <span className={styles.date}>16 January’20</span>
+                    <span className={styles.date}>{LatestNews[1].date}</span>
                     <span className={styles.react}>
-                      <i className="icofont-ui-love"></i> 56
+                      <i className={LatestNews[1].like}></i>{" "}
+                      {LatestNews[1].likes}
                     </span>
                     <span className={styles.react}>
-                      <i className="icofont-speech-comments"></i> 98
+                      <i className={LatestNews[1].comment}></i>{" "}
+                      {LatestNews[1].comments}
                     </span>
                   </div>
                   <div className={styles["news-title"]}>
-                    <a href="/">
-                      <h4>The passage popularity dry transfer sheets.</h4>
-                    </a>
+                    <Link to={`/BlogDetails/${LatestNews[1].id}`}>
+                      <h4>{LatestNews[1].heading.substr(0, 40)}...</h4>
+                    </Link>
                   </div>
                 </div>
               </div>
 
               <div className={`${styles["latest-news-list"]} d-flex`}>
                 <div className={styles["news-img"]}>
-                  <img className="w-100" src={news3} alt="" />
+                  <img className="w-100" src={LatestNews[2].img3} alt="" />
                 </div>
 
                 <div className={styles["news-content"]}>
                   <div className={styles["date-react"]}>
-                    <span className={styles.date}>16 January’20</span>
+                    <span className={styles.date}>{LatestNews[2].date}</span>
                     <span className={styles.react}>
-                      <i className="icofont-ui-love"></i> 56
+                      <i className={LatestNews[2].like}></i>{" "}
+                      {LatestNews[2].likes}
                     </span>
                     <span className={styles.react}>
-                      <i className="icofont-speech-comments"></i> 98
+                      <i className={LatestNews[2].comment}></i>{" "}
+                      {LatestNews[2].comments}
                     </span>
                   </div>
                   <div className={styles["news-title"]}>
-                    <a href="/">
-                      <h4>The passage popularity dry transfer sheets.</h4>
-                    </a>
+                    <Link to={`/BlogDetails/${LatestNews[2].id}`}>
+                      <h4>{LatestNews[2].heading.substr(0, 40)}...</h4>
+                    </Link>
                   </div>
                 </div>
               </div>

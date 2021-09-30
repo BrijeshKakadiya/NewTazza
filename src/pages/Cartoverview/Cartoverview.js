@@ -2,29 +2,35 @@ import styles from "./Cartoverview.module.css";
 import Hero from "../../components/Hero/Hero";
 import CardTotal from "../../components/CardTotal/CardTotal";
 import Forminput from "../../components/FormInput/Forminput";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import CartContext from "../../store/cart-context";
+import { Link } from "react-router-dom";
 
-const Cartoverview = () => {
+const Cartoverview = (props) => {
+  const [coupan, setCoupan] = useState();
   const cartCtx = useContext(CartContext);
-
   const { bestSellers } = cartCtx;
 
-  const AddItemHandler = (item) => {
-    cartCtx.addItem({ ...item });
+  const AddItemHandler = (value) => {
+    cartCtx.addItem(value);
   };
 
-  // cartCtx.bestSellers.map((bestSellers) => {
-  //   return {
-  //     id: bestSellers.id,
-  //     productName: bestSellers.name,
-  //     prevprice: bestSellers.prevprice,
-  //     price: bestSellers.price,
-  //     soldtag: bestSellers.soldtag,
-  //     img: bestSellers.img,
-  //   };
-  // });
-  // console.log(cartCtx);
+  const RemoveItemHandler = (id) => {
+    cartCtx.removeItem(id);
+  };
+  // console.log(RemoveItemHandler);
+
+  const DeleteItemHandler = (id) => {
+    cartCtx.deleteItem(id);
+  };
+
+  // const onSubmit = (e) => {};
+
+  const OnUpdate = (e) => {
+    if (e.target.name === "text") {
+      setCoupan(e.target.value);
+    }
+  };
 
   return (
     <>
@@ -60,25 +66,43 @@ const Cartoverview = () => {
 
                         <td className="align-middle">
                           <div className={`d-flex ${styles.cart}`}>
-                            <div className={`d-flex ${styles.quantity}`}>
-                              <div className="left_arrow">
-                                <button type="button">
+                            <div className={`d-flex`}>
+                              <div>
+                                <button
+                                  type="button"
+                                  onClick={() => RemoveItemHandler(value.id)}
+                                  style={{
+                                    background: "transparent",
+                                    border: "transparent",
+                                  }}
+                                >
                                   <i className="icofont-minus"></i>
                                 </button>
                               </div>
                               <div className={styles.quantity_num}>
                                 {value.quantity}
                               </div>
-                              <div className="right_arrow">
-                                <button onClick={AddItemHandler}>
+                              <div>
+                                <button
+                                  onClick={() => AddItemHandler(value)}
+                                  style={{
+                                    background: "transparent",
+                                    border: "transparent",
+                                  }}
+                                >
                                   <i className="icofont-plus"></i>
                                 </button>
                               </div>
                             </div>
                           </div>
                         </td>
-                        <td className="align-middle">${value.price}</td>
                         <td className="align-middle">
+                          ${value.price * value.quantity}
+                        </td>
+                        <td
+                          className="align-middle"
+                          onClick={() => DeleteItemHandler(value.id)}
+                        >
                           <i className="icofont-close text-danger"></i>
                         </td>
                       </tr>
@@ -102,20 +126,22 @@ const Cartoverview = () => {
                       type="text"
                       className={`form-control ${styles.search_button} `}
                       id="serach_button"
-                      name="serach_button"
+                      name="text"
                       placeholder="Apply Coupon"
+                      value={coupan}
+                      onChange={OnUpdate}
                     />
-                    <div className="coupon_btn">
-                      <a href="/#" className="border-radius-0">
+                    <button onClick={OnUpdate} className="coupon_btn">
+                      <Link to="/Cart" className="border-radius-0">
                         APPLY COUPON
-                      </a>
-                    </div>
+                      </Link>
+                    </button>
                   </div>
                 </form>
               </div>
             </div>
             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-3">
-              <CardTotal />
+              <CardTotal coupan={coupan} />
             </div>
           </div>
         </div>

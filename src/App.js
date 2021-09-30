@@ -1,10 +1,9 @@
-// import Homepage from "./components/Homepage/Homepage";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import "./App.css";
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import Header from "./components/Header/Header.js";
 import Product from "./pages/Product/Product";
 import Footer from "./components/Footer/Footer";
@@ -16,6 +15,7 @@ import Checkout from "./pages/Checkout/Checkout";
 import HomePage from "./pages/HomePage/HomePage";
 import CartProvider from "./store/CartProvider";
 import ScrollToTop from "./Helper/ScrollToTop";
+import Contact from "./pages/ContactNow/Contact";
 
 function App() {
   return (
@@ -25,14 +25,18 @@ function App() {
           <Header />
 
           <Route path="/" exact>
-            <HomePage />
+            <Redirect to="/HomePage" />
           </Route>
 
           <Route path="/HomePage" exact>
             <HomePage />
           </Route>
 
-          <Route path="/product" exact>
+          <Route path="/Product/:id">
+            <Product />
+          </Route>
+
+          <Route path="/Product" exact>
             <Product />
           </Route>
 
@@ -41,6 +45,10 @@ function App() {
           </Route>
 
           <Route path="/BlogDetails" exact>
+            <BlogDetails />
+          </Route>
+
+          <Route path="/BlogDetails/:id" exact>
             <BlogDetails />
           </Route>
 
@@ -54,6 +62,14 @@ function App() {
 
           <Route path="/Checkout" exact>
             <Checkout />
+          </Route>
+
+          <Route path="/Contact" exact>
+            <Contact />
+          </Route>
+
+          <Route path="*">
+            <Redirect to="/HomePage" />
           </Route>
 
           <Footer />

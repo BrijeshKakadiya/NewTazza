@@ -1,11 +1,14 @@
 import styles from "./Product.module.css";
-import Hero from "../../components/Hero/Hero";
 import fruit from "../../assets/Fruit2.jpg";
+import Hero from "../../components/Hero/Hero";
 import Slider from "react-slick";
 import Button from "../../components/Button/Button";
 import { bestSellers } from "../../lopping/FirstBanner";
-import { useContext } from "react";
+import { useContext, useReducer } from "react";
 import CartContext from "../../store/cart-context";
+import { useParams, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
+import Error from "../Error/Error";
 
 // const NextArrow = (props) => {
 //   const { onClick } = props;
@@ -33,7 +36,18 @@ import CartContext from "../../store/cart-context";
 //   );
 // };
 
-const ProductDetails = () => {
+const initialState = 1;
+const counter = (state, action) => {
+  if (action.type === "INCREMENT") {
+    return state + 1;
+  }
+  if (action.type === "DECREMENT") {
+    return state - 1;
+  }
+  return state;
+};
+
+const ProductDetails = (props) => {
   const settings = {
     dots: false,
     infinite: true,
@@ -49,10 +63,47 @@ const ProductDetails = () => {
 
   const setProduct = (item) => {
     cartCtx.addItem(item);
-    // console.log(item);
   };
 
-  return (
+  const AddItemHandler = (value) => {
+    cartCtx.addItem(value);
+  };
+
+  const RemoveItemHandler = (id) => {
+    cartCtx.removeItem(id);
+  };
+
+  let history = useHistory();
+  const { id } = useParams();
+
+  let existingProduct;
+
+  if (id) {
+    existingProduct = bestSellers.find((item) => item.id === id);
+  } else {
+    history.push("/HomePage");
+  }
+
+  const [state, dispatch] = useReducer(counter, initialState);
+
+  const Increase = () => {
+    dispatch({ type: "INCREMENT" });
+  };
+  const Decrease = () => {
+    dispatch({ type: "DECREMENT" });
+  };
+
+  const Add = () => {
+    AddItemHandler(existingProduct);
+    Increase();
+  };
+
+  const Remove = () => {
+    RemoveItemHandler(existingProduct);
+    Decrease();
+  };
+
+  return existingProduct ? (
     <>
       <Hero>Product Details</Hero>
       <div className={styles.product_details}>
@@ -61,19 +112,23 @@ const ProductDetails = () => {
             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-6">
               <div className={`${styles.product_img} d-flex`}>
                 <div className={styles.small_img}>
-                  <img className="w-100" src={fruit} alt="" />
-                  <img className="w-100" src={fruit} alt="" />
-                  <img className="w-100" src={fruit} alt="" />
+                  <img className="w-100" src={existingProduct.img} alt="" />
+                  <img className="w-100" src={existingProduct.img} alt="" />
+                  <img className="w-100" src={existingProduct.img} alt="" />
                 </div>
                 <div className={styles.big_img}>
-                  <img src={fruit} className="w-100 img-fluid" alt="" />
+                  <img
+                    src={existingProduct.img}
+                    className="w-100 img-fluid"
+                    alt=""
+                  />
                 </div>
               </div>
             </div>
 
             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-6">
               <div className={styles.producudetails_content}>
-                <h3>Strawberries: Health Benefi</h3>
+                <h3>{existingProduct.productName}</h3>
                 <div className={styles.customer_review}>
                   <ul>
                     <li>
@@ -88,32 +143,47 @@ const ProductDetails = () => {
                     </li>
                   </ul>
                 </div>
-                <strong>$60.00 </strong>
+                <strong>${existingProduct.price} </strong>
                 <strong>
-                  <del>$70.00 </del>
+                  <del>${existingProduct.prevprice} </del>
                 </strong>
-                <p>
-                  It is a long established fact that a reader will be distracted
-                  the readable content off a page when looking at its layout
-                  fact that a reader will bee distracted the readable content.
-                </p>
+                <p>{existingProduct.description}</p>
 
                 <div className={`${styles.add_to_cart} d-flex`}>
-                  <div className={`${styles.quantity} d-flex`}>
-                    <div className={styles.left_arrow}>
-                      <button type="button">
+                  <div className={`d-flex`}>
+                    <div>
+                      <button
+                        type="button"
+                        style={{
+                          background: "transparent",
+                          border: "transparent",
+                        }}
+                        onClick={Remove}
+                      >
                         <i className="icofont-minus"></i>
                       </button>
                     </div>
-                    <div className={styles.quantity_num}>1</div>
-                    <div className={styles.right_arrow}>
-                      <button type={styles.button}>
+
+                    <div className={styles.quantity_num}>{state}</div>
+                    <div>
+                      <button
+                        type="button"
+                        style={{
+                          background: "transparent",
+                          border: "transparent",
+                        }}
+                        onClick={Add}
+                      >
                         <i className="icofont-plus"></i>
                       </button>
                     </div>
                   </div>
                   <div className="ms-5">
-                    <Button>Add to cart</Button>
+                    <Link to="/Cart">
+                      <Button cart onClick={() => setProduct(existingProduct)}>
+                        Add to cart
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -121,7 +191,7 @@ const ProductDetails = () => {
           </div>
         </div>
       </div>
-      {/* // tabber */}
+
       <div className={styles.product_tabber}>
         <div className="container">
           <div className="row">
@@ -267,7 +337,6 @@ const ProductDetails = () => {
         </div>
       </div>
 
-      {/* Related Products */}
       <div className={styles["full-bestSeller"]}>
         <div className="container">
           <div className="row">
@@ -297,11 +366,15 @@ const ProductDetails = () => {
                           </span>
                         </div>
                         <div className="buttons">
-                          <span
-                            className={`${styles["sold-out-tag"]} position-top-right`}
-                          >
-                            {value.soldtag}
-                          </span>
+                          {value.soldtag === "Sold out" ? (
+                            <span
+                              className={`${styles["sold-out-tag"]} position-top-right`}
+                            >
+                              {value.soldtag}
+                            </span>
+                          ) : (
+                            ""
+                          )}
                           <span
                             className={`position-bottom-right ${styles["to-cart"]}`}
                           >
@@ -312,9 +385,11 @@ const ProductDetails = () => {
                         </div>
 
                         <div className={`${styles.icons} position-center`}>
-                          <div className="rounded-icon">
-                            <i className="icofont-eye"></i>
-                          </div>
+                          <Link to={`/product/${value.id}`}>
+                            <div className="rounded-icon">
+                              <i className="icofont-eye"></i>
+                            </div>
+                          </Link>
 
                           <div className="rounded-icon">
                             <i className="icofont-heart-alt"></i>
@@ -330,6 +405,10 @@ const ProductDetails = () => {
         </div>
       </div>
     </>
+  ) : (
+    <Error>
+      <h4 className={styles.error_content}>Data is not Found.</h4>
+    </Error>
   );
 };
 

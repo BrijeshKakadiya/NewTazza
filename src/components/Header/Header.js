@@ -8,6 +8,8 @@ import { useContext } from "react";
 import CartContext from "../../store/cart-context";
 
 const Header = () => {
+  const [show, setShow] = useState(false);
+
   const [btnIsHighlighted, setBtnIsHighlighted] = useState(false);
   const cartCtx = useContext(CartContext);
 
@@ -54,14 +56,12 @@ const Header = () => {
               aria-controls="navbarSupportedContent"
               aria-expanded="false"
               aria-label="Toggle navigation"
+              onClick={() => setShow(!show)}
             >
               <Icofont icon="navigation-menu" />
             </button>
 
-            <div
-              className="collapse navbar-collapse"
-              id="navbarSupportedContent"
-            >
+            <div className={`collapse navbar-collapse ${show ? "show" : ""}`}>
               <ul className={`navbar-nav ${styles["navbar-nav-nav"]} mx-auto`}>
                 <li className={`${styles.active} nav-item`}>
                   <NavHashLink
@@ -164,6 +164,14 @@ const Header = () => {
                       </Link>
                     </li>
                   </ul>
+                </li>
+                <li className="nav-item">
+                  <Link
+                    className={`${styles["nav-link-nav"]} nav-link`}
+                    to="/Contact"
+                  >
+                    Contact Us
+                  </Link>
                 </li>
               </ul>
 
